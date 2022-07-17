@@ -104,6 +104,9 @@ public:
 	 */
 	bool ReadChar(char &cRecved);
 
+	unsigned char *p_uart_rev_buff;
+	unsigned int char_counter;
+
 private:
 
 	/** ´ò¿ª´®¿Ú
@@ -134,6 +137,7 @@ public:
 	 *  @see:    
 	 */
 	static UINT WINAPI ListenThread(void* pParam);
+	//UINT WINAPI ListenThread(void* pParam);
 
 private:
 

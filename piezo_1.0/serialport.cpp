@@ -6,6 +6,7 @@
 #include "serialport.h"
 #include <process.h>
 #include <iostream>
+#include <time.h>
 
 /**thread is existed */ 
 bool CSerialPort::s_bExit = false;
@@ -16,6 +17,8 @@ CSerialPort::CSerialPort(void)
 : m_hListenThread(INVALID_HANDLE_VALUE)
 {
 	m_hComm = INVALID_HANDLE_VALUE;
+	p_uart_rev_buff = NULL;
+	char_counter = 0;
 	m_hListenThread = INVALID_HANDLE_VALUE;
 
 	InitializeCriticalSection(&m_csCommunicationSync);
@@ -242,36 +245,52 @@ UINT CSerialPort::GetBytesInCOM()
 	return BytesInQue;
 }
 
-UINT WINAPI CSerialPort::ListenThread( void* pParam )
+//UINT WINAPI CSerialPort::ListenThread( void* pParam )
+UINT WINAPI CSerialPort::ListenThread(void* pParam)
 {
+
 	/** 得到本类的指针 */ 
 	CSerialPort *pSerialPort = reinterpret_cast<CSerialPort*>(pParam);
+
+	clock_t tStart = clock();
 
 	// 线程循环,轮询方式读取串口数据
 	while (!pSerialPort->s_bExit) 
 	{
 		UINT BytesInQue = pSerialPort->GetBytesInCOM();
-		/** 如果串口输入缓冲区中无数据,则休息一会再查询 */ 
+		/** 如果串口输入缓冲区中无数据,则休息一会再查询 */
 		if ( BytesInQue == 0 )
 		{
 			Sleep(SLEEP_TIME_INTERVAL);
 			continue;
 		}
+		//printf("the num is :%d\r\n", i);
 
 		/** 读取输入缓冲区中的数据并输出显示 */
 		char cRecved = 0x00;
 		do
 		{
+
 			cRecved = 0x00;
 			if(pSerialPort->ReadChar(cRecved) == true)
 			{
-				//std::cout << cRecved ; 
-
-				::SendMessage((pSerialPort->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM) cRecved, (LPARAM) pSerialPort->m_nPortNr);
+				//std::cout << cRecved ;
+				pSerialPort->p_uart_rev_buff[pSerialPort->char_counter++] = cRecved;
+				//::SendMessage((pSerialPort->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM) cRecved, (LPARAM) pSerialPort->m_nPortNr);
 
 				continue;
-			}
+			}	
+
 		}while(--BytesInQue);
+
+		if (pSerialPort->char_counter > 100000)
+		{
+			printf("Port%d Time taken: %.2fs\n", pSerialPort->m_nPortNr, (double)(clock() - tStart) / CLOCKS_PER_SEC);
+			//getchar();
+			//::SendMessage((pSerialPort->m_pOwner)->m_hWnd, WM_COMM_RXCHAR, (WPARAM)cRecved, (LPARAM)pSerialPort->m_nPortNr);
+			return 0;
+		}
+
 	}
 
 	return 0;

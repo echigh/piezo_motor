@@ -11,9 +11,11 @@
 #define new DEBUG_NEW
 #endif
 
+#define REV_TIMER 0
 
-static BYTE m_stm32_data[512];
-static BYTE m_laser_data[5000000];
+#define UART_BUFF_LEN 5000000
+static unsigned char m_stm32_data[UART_BUFF_LEN];
+static unsigned char m_laser_data[UART_BUFF_LEN];
 
 
 
@@ -40,6 +42,7 @@ BEGIN_MESSAGE_MAP(Cpiezo_10Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_LASER, &Cpiezo_10Dlg::OnBnClickedButtonLaser)
 	ON_BN_CLICKED(IDC_BUTTON_SEND_STM32_ORDER, &Cpiezo_10Dlg::OnBnClickedButtonSendStm32Order)
 	ON_MESSAGE(WM_COMM_RXCHAR, OnCommunication)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -56,6 +59,7 @@ BOOL Cpiezo_10Dlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化代码
 	init_CComboBox();
+	SetTimer(REV_TIMER, 500, 0);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -117,6 +121,7 @@ void Cpiezo_10Dlg::OnBnClickedButtonStm32()
 	{
 		printf("com for Stm32 open fail.\r\n");
 	}
+	m_Comm_STM32.p_uart_rev_buff = m_stm32_data;
 
 	if (!m_Comm_STM32.OpenListenThread())
 	{
@@ -144,6 +149,7 @@ void Cpiezo_10Dlg::OnBnClickedButtonLaser()
 	{
 		printf("com for laser open fail.\r\n");
 	}
+	m_Comm_LASER.p_uart_rev_buff = m_laser_data;
 
 	if (!m_Comm_LASER.OpenListenThread())
 	{
@@ -155,42 +161,76 @@ void Cpiezo_10Dlg::OnBnClickedButtonLaser()
 
 void Cpiezo_10Dlg::OnBnClickedButtonSendStm32Order()
 {
-
+	unsigned char test[] = { 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0x0d, 0x0a};
+	m_Comm_STM32.WriteData(test, 7);
 	printf("OnBnClickedButtonSendStm32Order\r\n");
 }
 
 LONG Cpiezo_10Dlg::OnCommunication(WPARAM ch, LPARAM port)
 {
-	static int len_stm32_data = 0;
 
 	if (port == m_Comm_STM32.m_nPortNr)
 	{
-		m_stm32_data[i_stm32_data] = ch;
-		i_stm32_data++;
-		len_stm32_data++;
-	}
-
-	if (port == m_Comm_LASER.m_nPortNr)
-	{
-		m_laser_data[i_laser_data] = ch;
-		i_laser_data++;
-	}
-
-	if (i_stm32_data == 100)
-	{
-		i_stm32_data = 0;
-		printf("the m_stm32_data is: ");
-		for (int i = 0; i < 5; i++)
+		unsigned int len_stm32_data = m_Comm_STM32.char_counter;
+		unsigned int i_stm32_data = 0;
+		unsigned char * p_temp = m_Comm_STM32.p_uart_rev_buff;
+		unsigned char compared = p_temp[0];
+		
+		for (i_stm32_data = 0; i_stm32_data < len_stm32_data; i_stm32_data++)
 		{
-			printf("%02x ", m_stm32_data[i]);
+			if (compared++ != p_temp[i_stm32_data])
+			{
+				printf("difference start at index:%d\r\n", i_stm32_data);
+				printf("%02x %02x\r\n", p_temp[i_stm32_data-1], p_temp[i_stm32_data]);
+				getchar();
+				break;
+			}
+		}
+		printf("compare work has been done.\r\n");
+		printf("len_stm32_data is: %d\r\n", len_stm32_data);
+		getchar();
+		for (i_stm32_data = 0; i_stm32_data < 512; i_stm32_data++)
+		{
+			printf("%02x ", p_temp[i_stm32_data]);
 		}
 		printf("\r\n");
 	}
 
-	if (len_stm32_data % 1000 == 0)
+	if (port == m_Comm_LASER.m_nPortNr)
 	{
-		printf("has received %d chars from stm32\r\n", len_stm32_data);
+		
 	}
 
 	return 0;
+}
+
+void Cpiezo_10Dlg::OnTimer(UINT_PTR nIDEvent)
+{
+
+	if (nIDEvent == REV_TIMER)	//判断是哪个定时器触发的
+	{
+		if (m_Comm_STM32.char_counter > 5)
+		{
+			unsigned int i_stm32_data = 0;
+			unsigned char * p_temp = m_Comm_STM32.p_uart_rev_buff;
+			printf("m_Comm_STM32: ");
+			for (i_stm32_data = 0; i_stm32_data < 5; i_stm32_data++)
+			{
+				printf("%02x ", p_temp[i_stm32_data]);
+			}
+			printf("\r\n");
+		}
+		if (m_Comm_LASER.char_counter > 100000)
+		{
+			unsigned int i_laser_data = 0;
+			unsigned char * p_temp = m_Comm_LASER.p_uart_rev_buff;
+			printf("m_Comm_LASER: ");
+			for (i_laser_data = 0; i_laser_data < 16; i_laser_data++)
+			{
+				printf("%02x ", p_temp[i_laser_data]);
+			}
+			printf("\r\n");
+		}
+		//printf("\n +==========================================+\n");
+	}
 }

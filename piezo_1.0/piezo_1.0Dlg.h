@@ -34,6 +34,7 @@ public:
 	afx_msg void OnBnClickedButtonLaser();
 	afx_msg void OnBnClickedButtonSendStm32Order();
 	afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
 	CComboBox m_PortCombobox_STM32;
 	CComboBox m_BaudrateCombobox_STM32;
