@@ -17,7 +17,10 @@
 static unsigned char m_stm32_data[UART_BUFF_LEN];
 static unsigned char m_laser_data[UART_BUFF_LEN];
 
-
+//picture control
+int pic_height = 0, pic_width = 0;
+int x_start = 0, y_start = 0;
+int x_end = 0, y_end = 0;
 
 Cpiezo_10Dlg::Cpiezo_10Dlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(Cpiezo_10Dlg::IDD, pParent)
@@ -33,6 +36,8 @@ void Cpiezo_10Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_STM32_BAUD, m_BaudrateCombobox_STM32);
 	DDX_Control(pDX, IDC_COMBO_LASER_COM, m_PortCombobox_LASER);
 	DDX_Control(pDX, IDC_COMBO_LASER_BAUD, m_BaudrateCombobox_LASER);
+	DDX_Control(pDX, IDC_Curve, m_Curve);
+	
 }
 
 BEGIN_MESSAGE_MAP(Cpiezo_10Dlg, CDialogEx)
@@ -60,6 +65,17 @@ BOOL Cpiezo_10Dlg::OnInitDialog()
 	// TODO:  在此添加额外的初始化代码
 	init_CComboBox();
 	SetTimer(REV_TIMER, 500, 0);
+
+	//picture control
+	CRect *rc = (CRect *)malloc(sizeof(CRect));
+	m_Curve.GetWindowRect(rc);
+	printf("left:%d\r\n", rc->left);
+	printf("right:%d\r\n", rc->right);
+	printf("top:%d\r\n", rc->top);
+	printf("bottom:%d\r\n", rc->bottom);
+	pic_height = rc->bottom - rc->top;
+	pic_width = rc->right - rc->left;
+	free(rc);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -233,4 +249,14 @@ void Cpiezo_10Dlg::OnTimer(UINT_PTR nIDEvent)
 		}
 		//printf("\n +==========================================+\n");
 	}
+
+	/*pic control*/
+	x_start = x_end;
+	y_start = y_end;
+	x_end = x_end + 10;
+	y_end = y_end + 10;
+	CClientDC dc_pic(GetDlgItem(IDC_Curve));
+	printf("\r\nx_start:%d,y_start:%d,x_end:%d,y_end:%d\r\n", x_start, y_start, x_end, y_end);
+	dc_pic.MoveTo(x_start, y_start);
+	dc_pic.LineTo(x_end, y_end);
 }

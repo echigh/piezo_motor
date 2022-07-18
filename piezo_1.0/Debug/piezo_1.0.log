@@ -1,4 +1,4 @@
-﻿生成启动时间为 7/18/2022 12:43:51 AM。
+﻿生成启动时间为 7/18/2022 7:26:49 PM。
      1>项目“E:\work\workspace\Visual Studio\piezo_1.0\piezo_1.0\piezo_1.0.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          D:\work software\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\piezo_1.0.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt piezo_1.0Dlg.cpp
@@ -15,4 +15,4 @@
 
 生成成功。
 
-已用时间 00:00:01.41
+已用时间 00:00:01.10

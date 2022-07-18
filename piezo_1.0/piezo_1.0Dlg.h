@@ -40,6 +40,7 @@ public:
 	CComboBox m_BaudrateCombobox_STM32;
 	CComboBox m_PortCombobox_LASER;
 	CComboBox m_BaudrateCombobox_LASER;
+	CStatic m_Curve;
 
 	CSerialPort m_Comm_STM32;
 	CSerialPort m_Comm_LASER;
