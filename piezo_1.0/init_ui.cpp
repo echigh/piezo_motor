@@ -6,11 +6,24 @@
 
 void Cpiezo_10Dlg::init_CComboBox()
 {
-	for (int i = 0; i < 20; ++i)
-	{
-		TCHAR comName[32];
-		wsprintf(comName, L"COM %d", i + 1);
-		m_PortCombobox_STM32.InsertString(m_PortCombobox_STM32.GetCount(), comName);
+	DWORD test;
+	TCHAR lpTargetPath[32];
+	char str[32];
+	char suffix[3] = { 0 };
+	TCHAR comName[32];
+
+	for (int i = 0; i < 20; i++)
+	{	
+		itoa(i, suffix, 10);
+		strcpy(str, "COM");
+		strcat(str, suffix);
+		test = QueryDosDeviceA(str, (LPSTR)lpTargetPath, 5000);
+		// Test the return value and error if any
+		if (test != 0) //QueryDosDevice returns zero if it didn't find an object
+		{
+			wsprintf(comName, L"COM %d", i);
+			m_PortCombobox_STM32.InsertString(m_PortCombobox_STM32.GetCount(), comName);
+		}		
 	}
 	m_PortCombobox_STM32.SetCurSel(0);
 
@@ -24,11 +37,18 @@ void Cpiezo_10Dlg::init_CComboBox()
 	}
 	m_BaudrateCombobox_STM32.SetCurSel(0);
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 20; i++)
 	{
-		TCHAR comName[32];
-		wsprintf(comName, L"COM %d", i + 1);
-		m_PortCombobox_LASER.InsertString(m_PortCombobox_LASER.GetCount(), comName);
+		itoa(i, suffix, 10);
+		strcpy(str, "COM");
+		strcat(str, suffix);
+		test = QueryDosDeviceA(str, (LPSTR)lpTargetPath, 5000);
+		// Test the return value and error if any
+		if (test != 0) //QueryDosDevice returns zero if it didn't find an object
+		{
+			wsprintf(comName, L"COM %d", i);
+			m_PortCombobox_LASER.InsertString(m_PortCombobox_LASER.GetCount(), comName);
+		}
 	}
 	m_PortCombobox_LASER.SetCurSel(0);
 
