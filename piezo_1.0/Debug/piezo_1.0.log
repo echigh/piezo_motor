@@ -1,20 +1,12 @@
-﻿生成启动时间为 7/19/2022 10:33:31 AM。
+﻿生成启动时间为 7/19/2022 10:54:41 AM。
      1>项目“E:\work\workspace\Visual Studio\piezo_1.0\piezo_1.0\piezo_1.0.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         D:\work software\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\piezo_1.0.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt init_ui.cpp
+         D:\work software\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\piezo_1.0.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt init_ui.cpp piezo_1.0.cpp piezo_1.0Dlg.cpp
+         piezo_1.0Dlg.cpp
+         正在生成代码...
+         正在跳过...(未检测到相关更改)
+         piezo_1.0.cpp
          init_ui.cpp
-     1>e:\work\workspace\visual studio\piezo_1.0\piezo_1.0\init_ui.cpp(17): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _itoa. See online help for details.
-                 d:\work software\microsoft visual studio 12.0\vc\include\stdlib.h(937) : 参见“itoa”的声明
-     1>e:\work\workspace\visual studio\piezo_1.0\piezo_1.0\init_ui.cpp(18): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\work software\microsoft visual studio 12.0\vc\include\string.h(112) : 参见“strcpy”的声明
-     1>e:\work\workspace\visual studio\piezo_1.0\piezo_1.0\init_ui.cpp(19): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\work software\microsoft visual studio 12.0\vc\include\string.h(118) : 参见“strcat”的声明
-     1>e:\work\workspace\visual studio\piezo_1.0\piezo_1.0\init_ui.cpp(42): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _itoa. See online help for details.
-                 d:\work software\microsoft visual studio 12.0\vc\include\stdlib.h(937) : 参见“itoa”的声明
-     1>e:\work\workspace\visual studio\piezo_1.0\piezo_1.0\init_ui.cpp(43): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\work software\microsoft visual studio 12.0\vc\include\string.h(112) : 参见“strcpy”的声明
-     1>e:\work\workspace\visual studio\piezo_1.0\piezo_1.0\init_ui.cpp(44): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\work software\microsoft visual studio 12.0\vc\include\string.h(118) : 参见“strcat”的声明
        Link:
          D:\work software\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\work\workspace\Visual Studio\piezo_1.0\Debug\piezo_1.0.exe" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"D:\work software\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"E:\work\workspace\Visual Studio\piezo_1.0\Debug\piezo_1.0.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\work\workspace\Visual Studio\piezo_1.0\Debug\piezo_1.0.lib" /MACHINE:X86 Debug\piezo_1.0.res
          Debug\init_ui.obj
@@ -27,4 +19,4 @@
 
 生成成功。
 
-已用时间 00:00:01.07
+已用时间 00:00:01.44

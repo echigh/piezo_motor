@@ -46,6 +46,8 @@ BEGIN_MESSAGE_MAP(Cpiezo_10Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_STM32, &Cpiezo_10Dlg::OnBnClickedButtonStm32)
 	ON_BN_CLICKED(IDC_BUTTON_LASER, &Cpiezo_10Dlg::OnBnClickedButtonLaser)
 	ON_BN_CLICKED(IDC_BUTTON_SEND_STM32_ORDER, &Cpiezo_10Dlg::OnBnClickedButtonSendStm32Order)
+	ON_CBN_DROPDOWN(IDC_COMBO_STM32_COM, &Cpiezo_10Dlg::OnCbnDropdownStm32)
+	ON_CBN_DROPDOWN(IDC_COMBO_LASER_COM, &Cpiezo_10Dlg::OnCbnDropdownLaser)
 	ON_MESSAGE(WM_COMM_RXCHAR, OnCommunication)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
@@ -182,6 +184,21 @@ void Cpiezo_10Dlg::OnBnClickedButtonSendStm32Order()
 	printf("OnBnClickedButtonSendStm32Order\r\n");
 }
 
+void Cpiezo_10Dlg::OnCbnDropdownStm32()
+{
+	//refresh combobox list
+	m_PortCombobox_STM32.ResetContent();
+	m_PortCombobox_LASER.ResetContent();
+	init_CComboBox();
+}
+void Cpiezo_10Dlg::OnCbnDropdownLaser()
+{
+	//refresh combobox list
+	m_PortCombobox_STM32.ResetContent();
+	m_PortCombobox_LASER.ResetContent();
+	init_CComboBox();
+}
+
 LONG Cpiezo_10Dlg::OnCommunication(WPARAM ch, LPARAM port)
 {
 
@@ -259,4 +276,5 @@ void Cpiezo_10Dlg::OnTimer(UINT_PTR nIDEvent)
 	printf("\r\nx_start:%d,y_start:%d,x_end:%d,y_end:%d\r\n", x_start, y_start, x_end, y_end);
 	dc_pic.MoveTo(x_start, y_start);
 	dc_pic.LineTo(x_end, y_end);
+	
 }

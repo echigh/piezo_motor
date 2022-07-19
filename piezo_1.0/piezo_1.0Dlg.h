@@ -33,6 +33,8 @@ public:
 	afx_msg void OnBnClickedButtonStm32();
 	afx_msg void OnBnClickedButtonLaser();
 	afx_msg void OnBnClickedButtonSendStm32Order();
+	afx_msg void OnCbnDropdownStm32();
+	afx_msg void OnCbnDropdownLaser();
 	afx_msg LONG OnCommunication(WPARAM ch, LPARAM port);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
