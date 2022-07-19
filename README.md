@@ -1,7 +1,7 @@
 # piezo_motor
 piezo_motor driver and get data task in qtech
 
-module:
+module:  
 1.CSerialPort class, i modified it to recieve 1382400 baud rate.  
 2.use CClientDC to draw line.  
 3.use QueryDosDeviceA function to query available port.  
