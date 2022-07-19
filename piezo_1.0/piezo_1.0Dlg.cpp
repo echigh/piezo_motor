@@ -37,7 +37,7 @@ void Cpiezo_10Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_LASER_COM, m_PortCombobox_LASER);
 	DDX_Control(pDX, IDC_COMBO_LASER_BAUD, m_BaudrateCombobox_LASER);
 	DDX_Control(pDX, IDC_Curve, m_Curve);
-	
+	DDX_Control(pDX, IDC_EDIT_calibration_value, m_edit_calibration);
 }
 
 BEGIN_MESSAGE_MAP(Cpiezo_10Dlg, CDialogEx)
@@ -50,6 +50,7 @@ BEGIN_MESSAGE_MAP(Cpiezo_10Dlg, CDialogEx)
 	ON_CBN_DROPDOWN(IDC_COMBO_LASER_COM, &Cpiezo_10Dlg::OnCbnDropdownLaser)
 	ON_MESSAGE(WM_COMM_RXCHAR, OnCommunication)
 	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BUTTON_CALIBRATE, &Cpiezo_10Dlg::OnBnClickedButtonCalibrate)
 END_MESSAGE_MAP()
 
 
@@ -277,4 +278,22 @@ void Cpiezo_10Dlg::OnTimer(UINT_PTR nIDEvent)
 	dc_pic.MoveTo(x_start, y_start);
 	dc_pic.LineTo(x_end, y_end);
 	
+}
+
+void Cpiezo_10Dlg::OnBnClickedButtonCalibrate()
+{
+	CString str = _T("");
+	m_edit_calibration.GetWindowTextW(str);
+
+	if (!str.IsEmpty())
+	{
+		int i;
+		i = _wtoi(str); // if you use wide charater formats
+		//i = _atoi(str); // otherwise
+		printf("the calibration value is:%d\r\n",i);
+	}	
+	else
+	{
+		printf("the calibration str is empty\r\n");
+	}
 }

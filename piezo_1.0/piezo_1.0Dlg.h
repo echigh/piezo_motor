@@ -43,6 +43,7 @@ public:
 	CComboBox m_PortCombobox_LASER;
 	CComboBox m_BaudrateCombobox_LASER;
 	CStatic m_Curve;
+	CEdit m_edit_calibration;
 
 	CSerialPort m_Comm_STM32;
 	CSerialPort m_Comm_LASER;
@@ -51,4 +52,5 @@ public:
 
 	int i_stm32_data = 0;
 	int i_laser_data = 0;
+	afx_msg void OnBnClickedButtonCalibrate();
 };
